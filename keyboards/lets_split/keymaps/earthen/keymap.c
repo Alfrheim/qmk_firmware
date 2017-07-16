@@ -3,10 +3,6 @@
 #include "eeconfig.h"
 #include "keymap_extras/keymap_german_ch.h"
 
-#ifdef BACKLIGHT_ENABLE
-  #include "backlight.h"
-#endif
-
 extern keymap_config_t keymap_config;
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
@@ -22,6 +18,7 @@ extern keymap_config_t keymap_config;
 #define RAISE 6
 #define CODE 7
 #define ADJUST 8
+#define MOUSE 9
 
 
 // Fillers to make layering more clear
@@ -82,7 +79,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   LT(CODE, KC_ESC),  KC_QUOT, KC_COMM, KC_DOT,  KC_P,    KC_Y,    KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    LT(CODE,KC_SLSH), \
   LT(SYMBUS,KC_TAB), KC_A,    KC_O,    KC_E,    KC_U,    KC_I,    KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    LT(SYMBUS,KC_MINS), \
   KC_LSFT, KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    KC_RSFT, \
-  KC_LCTL, KC_LALT, KC_LEFT, KC_RGHT,  LT(LOWER,KC_BSPC), LT(RAISE,KC_ENT) , LT(RAISE,KC_SPC) ,  LT(LOWER,KC_DELT),  KC_UP,   KC_DOWN, KC_RGUI, KC_ENT \
+  KC_LCTL, KC_LALT, KC_LEFT, LT(MOUSE, KC_LEFT),  LT(LOWER,KC_BSPC), LT(RAISE,KC_ENT) , LT(RAISE,KC_SPC) ,  LT(LOWER,KC_DELT),  KC_UP,   KC_DOWN, KC_RGUI, KC_ENT \
+),
+
+/* Raise
+ * ,-----------------------------------------------------------------------------------.
+ * |ADJUST|  F4 |  F3  |   F2 |  F1   |      |      | HOME |  UP  |  END |  *   |      |
+ * |------+-----+------+------+----- -+-------------+------+------+------+------+------|
+ * |      |  F8 |   F7 |   F6 |   F5  |      |      | LEFT | DOWN | RIGHT|   +  |  \   |
+ * |------+-----+------+------+----- -+------|------+------+------+------+------+------|
+ * |      |  12  | F11  |  F10 |  F9  |      |      |   1  |   2  |   3  |   /  |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      |      | Next | Vol- | Vol+ | Play |
+ * `-----------------------------------------------------------------------------------'
+ */
+[MOUSE] = KEYMAP( \
+  TG(ADJUST),  _______, _______, _______, _______, _______, _______, KC_BTN1,    KC_MS_UP, KC_BTN2,_______,_______, \
+  _______, _______, _______, _______, _______, _______, _______, KC_MS_LEFT, KC_MS_DOWN,  KC_MS_RIGHT, _______, _______, \
+  _______, _______, _______, _______, _______, _______, _______, KC_ACL0, KC_ACL1, KC_ACL2, _______, _______, \
+  _______, _______, _______, _______, _______, _______, _______, _______,_______, _______, _______, _______ \
 ),
 
 /* Symbol
@@ -183,31 +198,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
-
-const uint16_t PROGMEM fn_actions[] = {
-  [0]  = ACTION_LAYER_TAP_KEY(MARC, KC_SPC),
-};
-
-const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
-{
-  // MACRODOWN only works in this function
-      switch(id) {
-        case 0:
-          if (record->event.pressed) {
-            register_code(KC_RSFT);
-            #ifdef BACKLIGHT_ENABLE
-              backlight_step();
-            #endif
-          } else {
-            unregister_code(KC_RSFT);
-          }
-        break;
-      }
-    return MACRO_NONE;
-};
-
-void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
-  switch (id) {
-  
-  }
-}
