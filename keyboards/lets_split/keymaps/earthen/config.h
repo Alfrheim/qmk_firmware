@@ -30,9 +30,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #undef RGBLED_NUM
 #define RGBLIGHT_ANIMATIONS
 #define RGBLED_NUM 10
-#define RGBLIGHT_HUE_STEP 12 // units to step when in/decreasing hue
-#define RGBLIGHT_SAT_STEP 25 // units to step when in/decresing saturation
-#define RGBLIGHT_VAL_STEP 12 // units to step when in/decreasing value (brightness)
+#define RGBLIGHT_HUE_STEP 8 // units to step when in/decreasing hue
+#define RGBLIGHT_SAT_STEP 8 // units to step when in/decresing saturation
+#define RGBLIGHT_VAL_STEP 8 // units to step when in/decreasing value (brightness)
 /* Mouse configuration */
 #define MOUSEKEY_INTERVAL 20
 #define MOUSEKEY_DELAY 0
